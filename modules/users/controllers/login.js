@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jsonwebtoken = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const jwtManager = require("../../../managers/jwtManager");
 
 const login = async (req, res) => {
   const userModel = mongoose.model("users");
@@ -18,13 +19,7 @@ const login = async (req, res) => {
 
   if (!comparePassword) throw "Email and password donot match";
 
-  const accessToken = jsonwebtoken.sign(
-    {
-      _id: getUser._id,
-      name: getUser.fullName,
-    },
-    process.env.jwt_salt
-  );
+  const accessToken = jwtManager(getUser);
 
   res.status(200).json({
     status: "success",

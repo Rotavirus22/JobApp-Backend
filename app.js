@@ -6,6 +6,7 @@ const cors = require("cors");
 const errorHandlers = require("./handlers/errorHandlers");
 const mongoose = require("mongoose");
 const userRoute = require("./modules/users/users.routes");
+const jobRoute = require("./modules/job/job.routes");
 
 require("dotenv").config();
 
@@ -26,11 +27,15 @@ mongoose
 //model initialization
 
 require("./models/users.model");
+require("./models/job.model");
 //for creating the json files
 app.use(express.json());
 
 //Routes
 app.use("/api/users", userRoute);
+app.use("/api/job", jobRoute);
+
+//if any route which isn't found
 
 app.all("*", (req, res, next) => {
   res.status(400).json({

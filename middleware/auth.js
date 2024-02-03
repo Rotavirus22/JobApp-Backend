@@ -10,8 +10,6 @@ const auth = (req, res, next) => {
 
     const jwt_payload = jsonwebtoken.verify(accessToken, process.env.jwt_salt);
 
-    console.log(jwt_payload);
-
     //creating user of jwt request which is equal to jwt payload
     req.user = jwt_payload;
   } catch (e) {
