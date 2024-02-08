@@ -18,7 +18,6 @@ userRoute.post("/login", login);
 userRoute.use(auth);
 
 //protected routes
-
 userRoute.get("/dashboard", userDashboard);
 
 module.exports = userRoute;

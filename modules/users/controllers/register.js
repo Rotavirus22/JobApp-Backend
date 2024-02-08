@@ -16,11 +16,14 @@ const register = async (req, res) => {
   if (password != confirm_password)
     throw "Password and confirm password donot match";
 
+  //helps in finding the email again if it is in the database then it throws an error and validation below works.
   const getDuplicateEmail = await usersModel.findOne({
     email: email,
   });
 
   if (getDuplicateEmail) throw "Email already exists";
+
+  //Hashing/Encrypting the given password so that it doesn't leak the essential information.
 
   const hashedPassword = await bcrypt.hash(password, 12);
 
