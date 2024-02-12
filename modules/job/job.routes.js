@@ -6,6 +6,7 @@ const createJob = require("./controllers/createJob");
 const getJob = require("./controllers/getJob");
 const getSingleJob = require("./controllers/getSingleJob");
 const getJobByUser = require("./controllers/getJobByUser");
+const applyJob = require("./controllers/applyJob");
 
 //providing the routing query
 //This provides the Express router which helps in maintaining the rouute.
@@ -21,5 +22,6 @@ jobRoute.post("/createJob", createJob);
 jobRoute.get("/", getJob);
 jobRoute.get("/:job_id", getSingleJob);
 jobRoute.get("/user/:user_id", getJobByUser);
+jobRoute.post("/applyJob", applyJob);
 
 module.exports = jobRoute;
