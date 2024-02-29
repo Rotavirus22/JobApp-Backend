@@ -9,6 +9,7 @@ const getJobByUser = require("./controllers/getJobByUser");
 const applyJob = require("./controllers/applyJob");
 const getApplyByJob = require("./controllers/getApplyByjob");
 const getApplyByUser = require("./controllers/getApplyByUser");
+const upload = require("../../middleware/multer");
 
 //providing the routing query
 //This provides the Express router which helps in maintaining the rouute.
@@ -20,11 +21,14 @@ jobRoute.use(auth);
 
 //protected routes
 //using it after the auth protects the route meaning if the valid user is not entering the details then the access is denied.
+
+// Applying upload middleware specifically to the /applyJob route
+jobRoute.post("/applyJob", upload.single("pdf"), applyJob);
+
 jobRoute.post("/createJob", createJob);
 jobRoute.get("/", getJob);
 jobRoute.get("/:job_id", getSingleJob);
 jobRoute.get("/user/:user_id", getJobByUser);
-jobRoute.post("/applyJob", applyJob);
 jobRoute.get("/apply/jobs/:job_id", getApplyByJob);
 jobRoute.get("/apply/users/:user_id", getApplyByUser);
 

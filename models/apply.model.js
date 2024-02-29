@@ -20,6 +20,10 @@ const applySchema = new mongoose.Schema(
       type: String,
       required: [true, "Cover letter is required"],
     },
+    pdf_url: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

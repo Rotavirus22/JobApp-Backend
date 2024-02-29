@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const jobModel = require("../../../models/job.model");
 const applyModel = require("../../../models/apply.model");
+const fs = require("fs");
+const pdf = require("pdf-parse");
+const cloudinary = require("../../../utils/cloudinary");
 
 const applyJob = async (req, res) => {
   const jobModel = mongoose.model("job");
@@ -40,19 +43,27 @@ const applyJob = async (req, res) => {
       });
     }
 
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      resource_type: "raw",
+    });
+    const pdfData = await pdf(fs.readFileSync(req.file.path));
+
     const apply = await applyModel.create({
       user_id: req.user._id,
       job_id: job_id,
       cover_letter: cover_letter,
       expected_salary: expected_Salary,
+      pdf_url: result.secure_url,
     });
+
+    fs.unlinkSync(req.file.path);
     res.status(200).json({
       status: "Success",
       message: "Job has been successfully applied",
     });
   } catch (e) {
-    console.error(error);
-    res.status(500)({
+    console.error(e);
+    res.status(500).json({
       status: "Error",
       message: "Internal Server error",
     });
