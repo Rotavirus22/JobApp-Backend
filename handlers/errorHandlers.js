@@ -3,12 +3,12 @@ const errorHandlers = (error, req, res, next) => {
     if (error.message) {
       res.status(400).json({
         status: "failed",
-        error: error.message,
+        message: error.message,
       });
     } else {
       res.status(400).json({
         status: "failed",
-        error: error,
+        message: error,
       });
     }
   } else {

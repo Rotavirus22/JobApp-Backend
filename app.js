@@ -7,6 +7,7 @@ const errorHandlers = require("./handlers/errorHandlers");
 const mongoose = require("mongoose");
 const userRoute = require("./modules/users/users.routes");
 const jobRoute = require("./modules/job/job.routes");
+const paymentRoute = require("./modules/subscription/payment.routes");
 
 require("dotenv").config();
 
@@ -28,12 +29,15 @@ mongoose
 
 require("./models/users.model");
 require("./models/job.model");
+require("./models/apply.model");
+require("./models/payment.model");
 //for creating the json files
 app.use(express.json());
 
 //Routes
 app.use("/api/users", userRoute);
 app.use("/api/job", jobRoute);
+app.use("/api/payment", paymentRoute);
 
 //if any route which isn't found
 

@@ -10,6 +10,7 @@ const applyJob = require("./controllers/applyJob");
 const getApplyByJob = require("./controllers/getApplyByjob");
 const getApplyByUser = require("./controllers/getApplyByUser");
 const upload = require("../../middleware/multer");
+const searchJob = require("./controllers/searchJob");
 
 //providing the routing query
 //This provides the Express router which helps in maintaining the rouute.
@@ -31,5 +32,6 @@ jobRoute.get("/:job_id", getSingleJob);
 jobRoute.get("/user/:user_id", getJobByUser);
 jobRoute.get("/apply/jobs/:job_id", getApplyByJob);
 jobRoute.get("/apply/users/:user_id", getApplyByUser);
+jobRoute.get("/jobs/search/:key", searchJob);
 
 module.exports = jobRoute;

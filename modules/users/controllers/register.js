@@ -2,11 +2,13 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jsonwebtoken = require("jsonwebtoken");
 const jwtManager = require("../../../managers/jwtManager");
+const emailManager = require("../../../managers/emailManager");
 
 const register = async (req, res) => {
   const usersModel = mongoose.model("users");
 
-  const { fullName, email, password, confirm_password } = req.body;
+  const { fullName, email, password, confirm_password, workPosition } =
+    req.body;
 
   //validations
   if (!fullName) throw "Full name must be provided";
@@ -29,12 +31,20 @@ const register = async (req, res) => {
 
   const createdUser = await usersModel.create({
     fullName: fullName,
+    workPosition: workPosition,
     email: email,
     password: hashedPassword,
     confirm_password: confirm_password,
   });
 
   const accessToken = jwtManager(createdUser);
+
+  await emailManager(
+    createdUser.email,
+    "Welcome to Quantum Hires.",
+    "<h1> Wlcome to Quantum Hires. </h1>",
+    "Welcome"
+  );
   res.status(201).json({
     status: "User registered successfully !!",
     accessToken: accessToken,
