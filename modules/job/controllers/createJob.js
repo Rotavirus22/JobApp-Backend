@@ -10,8 +10,9 @@ const createJob = async (req, res) => {
     jobDescription,
     company,
     estimatedSalary,
-    jobType,
     location,
+    jobNature,
+    endDate,
   } = req.body;
 
   //validations of the schema
@@ -21,6 +22,12 @@ const createJob = async (req, res) => {
   if (!estimatedSalary) throw "Estimated Salary is required";
   if (!location) throw "Job Location is required";
 
+  const currentDate = new Date();
+  const jobStatus = new Date(endDate) < currentDate ? "Expired" : "Active";
+
+  const parsedEndDate = new Date(endDate);
+  const formattedEndDate = parsedEndDate.toLocaleDateString();
+
   //creating the required schema which stores the data in the database once the req in the certain url is performed.
   await jobModel.create({
     user_id: req.user._id,
@@ -28,8 +35,10 @@ const createJob = async (req, res) => {
     job_description: jobDescription,
     company: company,
     estimated_salary: estimatedSalary,
-    job_type: jobType,
     location: location,
+    job_nature: jobNature,
+    end_date: formattedEndDate,
+    job_status: jobStatus,
   });
 
   //response status after the data is entered in the database.

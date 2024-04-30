@@ -3,6 +3,7 @@ require("express-async-errors");
 
 const express = require("express");
 const cors = require("cors");
+const cron = require("node-cron");
 const errorHandlers = require("./handlers/errorHandlers");
 const mongoose = require("mongoose");
 const userRoute = require("./modules/users/users.routes");
@@ -31,6 +32,21 @@ require("./models/users.model");
 require("./models/job.model");
 require("./models/apply.model");
 require("./models/payment.model");
+
+// Schedule a cron job to run every day at midnight
+const jobCron = cron.schedule("0 0 * * *", async () => {
+  const jobModel = mongoose.model("jobs");
+
+  const jobs = await jobModel.find();
+  const currentDate = new Date();
+
+  jobs.forEach(async (job) => {
+    if (job.endDate < currentDate) {
+      await jobModel.findByIdAndUpdate(job._id, { job_status: "Expired" });
+    }
+  });
+});
+
 //for creating the json files
 app.use(express.json());
 
@@ -49,6 +65,8 @@ app.all("*", (req, res, next) => {
 });
 
 app.use(errorHandlers);
+
+jobCron.start();
 
 app.listen(8000, () => {
   console.log("Server Started Successfully !");

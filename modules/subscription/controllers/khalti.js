@@ -35,11 +35,12 @@ async function initializeKhaltiPayment(details) {
   const bodyContent = JSON.stringify(details);
 
   const reqOptions = {
-    url: `https://a.khalti.com/api/v2/epayment/initiate/`,
+    url: `${process.env.KHALTI_GATEWAY_URL}/api/v2/epayment/initiate/`,
     method: "POST",
     headers: headersList,
     data: bodyContent,
   };
+  console.log(reqOptions);
 
   try {
     const response = await axios.request(reqOptions);

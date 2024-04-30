@@ -7,6 +7,8 @@ const userDashboard = require("./controllers/userDashboard");
 const auth = require("../../middleware/auth");
 const forgotPassword = require("./controllers/forgotPassword");
 const resetPassword = require("./controllers/resetPassword");
+const editImage = require("./controllers/editImage");
+const upload = require("../../middleware/multer");
 
 //providing the routing query
 const userRoute = express.Router();
@@ -20,6 +22,12 @@ userRoute.post("/resetPw", resetPassword);
 
 //middleware
 userRoute.use(auth);
+
+userRoute.post(
+  "/uploadProfilePicture",
+  upload.single("profilePicture"),
+  editImage
+);
 
 //protected routes
 userRoute.get("/dashboard", userDashboard);

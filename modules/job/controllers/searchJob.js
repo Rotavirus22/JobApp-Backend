@@ -5,8 +5,6 @@ const searchJob = async (req, res) => {
   try {
     const { title, company, location } = req.query;
 
-    const query = {};
-
     if (title) query.title = new RegExp(title, "i");
     if (location) query.location = new RegExp(location, "i");
     if (company) query.company = new RegExp(company, "i");

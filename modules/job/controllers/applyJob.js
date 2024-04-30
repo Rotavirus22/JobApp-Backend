@@ -42,6 +42,12 @@ const applyJob = async (req, res) => {
         message: "You can't apply to the job you created",
       });
     }
+    if (job.job_status == "Expired") {
+      return res.status(400).json({
+        status: "Failed",
+        message: "Job is Expired",
+      });
+    }
 
     const result = await cloudinary.uploader.upload(req.file.path, {
       resource_type: "raw",
@@ -50,6 +56,7 @@ const applyJob = async (req, res) => {
 
     const apply = await applyModel.create({
       user_id: req.user._id,
+      user_name: "Rohan",
       job_id: job_id,
       cover_letter: cover_letter,
       expected_salary: expected_Salary,

@@ -23,14 +23,21 @@ const jobSchema = new mongoose.Schema(
       type: String,
       required: [true, "Estimated Salary is required"],
     },
-    job_type: {
-      type: String,
-      required: false,
-      enum: ["FullTime, PartTime"],
-    },
     location: {
       type: String,
       required: [true, "Location is required"],
+    },
+    job_nature: {
+      type: String,
+      enum: ["Part time", "Full time"],
+    },
+    end_date: {
+      type: Date,
+      required: [true, "End Date is required"],
+    },
+    job_status: {
+      type: String,
+      enum: ["Active", "Expired"],
     },
   },
   { timestamps: true }

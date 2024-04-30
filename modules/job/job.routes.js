@@ -11,9 +11,10 @@ const getApplyByJob = require("./controllers/getApplyByjob");
 const getApplyByUser = require("./controllers/getApplyByUser");
 const upload = require("../../middleware/multer");
 const searchJob = require("./controllers/searchJob");
+const jobRecommendation = require("./controllers/job_recommendation");
 
 //providing the routing query
-//This provides the Express router which helps in maintaining the rouute.
+//This provides the Express router which helps in maintaining the route.
 const jobRoute = express.Router();
 
 //middleware
@@ -32,6 +33,7 @@ jobRoute.get("/:job_id", getSingleJob);
 jobRoute.get("/user/:user_id", getJobByUser);
 jobRoute.get("/apply/jobs/:job_id", getApplyByJob);
 jobRoute.get("/apply/users/:user_id", getApplyByUser);
-jobRoute.get("/jobs/search/:key", searchJob);
+jobRoute.get("/search/:key", searchJob);
+jobRoute.get("/openai/getJobRecommendations", jobRecommendation);
 
 module.exports = jobRoute;
